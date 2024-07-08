@@ -1,47 +1,52 @@
 ---
 apiVersion: apps/v1
 kind: Deployment
+# Define a Deployment named "nginx"
 metadata:
   name: nginx
   labels:
     app: nginx
     layer: frontend
 spec:
-    
-  replicas: 6
+  # Set the number of replicas to 2
+  replicas: 2
   selector:
     matchLabels:
       app: nginx
   template:
-    
-    
     metadata:
       labels:
         app: nginx
-            
     spec:
-    
+      # Define a container named "nginx"
       containers:
-      
-        - name: nginx
-          image: nginx:alpine
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            
-            - mountPath: /var/www/html/
-              name: contents
-                
-            - name: nginx-config
-              mountPath: /etc/nginx/conf.d/default.conf
-              subPath: nginx.conf
-                
-      volumes:
-        - name: contents
-          hostPath:
-            path: /var/website
-            type: Directory
-                
+      - name: nginx
+        # Use the nginx:alpine image
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            # Set CPU limit to 0.5
+            cpu: "0.5"
+            # Set memory limit to 512Mi
+            memory: "512Mi"
+        volumeMounts:
+        - mountPath: /var/www/html/
+          # Mount the "contents" volume
+          name: contents
         - name: nginx-config
-          configMap:
-            name: nginx
+          # Mount the "nginx-config" volume
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
+      # Define two volumes
+      volumes:
+      - name: contents
+        # Use a hostPath volume
+        hostPath:
+          path: /var/website
+          type: Directory
+      - name: nginx-config
+        # Use a ConfigMap volume
+        configMap:
+          name: nginx

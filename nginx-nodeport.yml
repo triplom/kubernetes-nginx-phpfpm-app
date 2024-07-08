@@ -1,21 +1,20 @@
 ---
-kind: Service 
-apiVersion: v1 
+# Define a Service named "nginx"
+kind: Service
+apiVersion: v1
 metadata:
   name: nginx
   labels:
     app: nginx
     layer: frontend
-        
 spec:
-
+  # Set the service type to NodePort
   type: NodePort
+  # Select the pods with label "app: nginx"
   selector:
-    
     app: nginx
-
+  # Define a port mapping
   ports:
-   
     - nodePort: 30000
       port: 80
       targetPort: 80

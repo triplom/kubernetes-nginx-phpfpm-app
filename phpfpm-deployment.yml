@@ -2,37 +2,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: phpfpm
+  name: phpfpm  # deployment name
   labels:
-    app: phpfpm
-    layer: backend
+    app: phpfpm  # application label
+    layer: backend  # backend layer label
 spec:
-    
-  replicas: 6
+  replicas: 2  # number of replicas
   selector:
     matchLabels:
-      app: phpfpm
+      app: phpfpm  # selector label
   template:
-    
-    
     metadata:
       labels:
-        app: phpfpm
-            
+        app: phpfpm  # template label
     spec:
-    
       containers:
-      
-        - name: phpfpm
-          image: php:fpm-alpine
-          ports:
-            - containerPort: 9000
-          volumeMounts:
-            - mountPath: /var/www/html/
-              name: contents
-        
+      - name: phpfpm  # container name
+        image: php:fpm-alpine  # PHP FPM Alpine image
+        ports:
+        - containerPort: 9000  # expose port 9000
+        resources:
+          limits:
+            cpu: "1"  # limit CPU to 1 core
+            memory: "512Mi"  # limit memory to 512MB
+        volumeMounts:
+        - mountPath: /app/  # mount path for volume
+          name: contents  # volume name
       volumes:
-        - name: contents
-          hostPath:
-            path: /var/website
-            type: Directory
+      - name: contents  # volume name
+        hostPath:
+          path: /var/website  # host path for volume
+          type: Directory  # volume type

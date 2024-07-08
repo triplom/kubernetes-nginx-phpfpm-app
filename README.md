@@ -5,17 +5,21 @@ In this tutorial, we will deploy a PHP application on a Kubernetes cluster with 
 We want the web-server nginx and phpfpm to be co-located in separate pods.
 ![alt text](https://i.ibb.co/R4P9YB0/kubernetes-nginx-phpfpm1-drawio.png)
 
-### PHP-FPM
+## PHP-FPM
+
 PHP-FPM is an implementation of Fast-CGI for PHP with improved capabilities around process management, logging, and high traffic situations.
 
-### Nginx
+## Nginx
+
 Nginx is a web server and reverse proxy that’s widely used for high traffic applications. When run in combination with PHP-FPM, Nginx is configured to send requests for .php routes to PHP-FPM to serve the page.
 
 We should upload the application files first, to all worker nodes to the directory /var/website as /var/website is volume path to containers.
 
-#### nginx-deployment.yml
+### Manifests and config Files: 
 
-~~~
+```yaml
+
+#nginx-deployment.yml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -31,7 +35,7 @@ spec:
     matchLabels:
       app: nginx
   template:
-    
+  
     
     metadata:
       labels:
@@ -63,11 +67,10 @@ spec:
         - name: nginx-config
           configMap:
             name: nginx
-~~~
+```
 
-#### nginx-nodeport.yml
-
-~~~
+```yaml
+# nginx-nodeport.yml
 ---
 kind: Service 
 apiVersion: v1 
@@ -89,11 +92,10 @@ spec:
     - nodePort: 30000
       port: 80
       targetPort: 80
-~~~
+```
 
-#### nginx.conf
-
-~~~
+```bash
+# nginx.conf
 server {
   listen 80;
   listen [::]:80;
@@ -119,11 +121,10 @@ server {
     fastcgi_param SCRIPT_NAME $fastcgi_script_name;
   }
 }
-~~~
+```
 
-#### phpfpm-deployment.yml
-
-~~~
+```yaml
+# phpfpm-deployment.yml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -162,11 +163,10 @@ spec:
           hostPath:
             path: /var/website
             type: Directory
-~~~
+```
 
-#### phpfpm-clusterip.yml
-
-~~~
+```yaml
+# phpfpm-clusterip.yml
 ---
 kind: Service 
 apiVersion: v1 
@@ -187,9 +187,9 @@ spec:
     
     - port: 9000
       targetPort: 9000
-~~~
+```
 
-## Results: 
+### Results: 
 
 We will get below results once we run the above deployments.
 
@@ -201,7 +201,8 @@ We will get below results once we run the above deployments.
 
 ![Alt Text](https://i.ibb.co/L6Gtcy6/pic4.png)
 
-## Author
+#### Author
+
 Created by [@sebinxavi](https://www.linkedin.com/in/sebinxavi/) - feel free to contact me and advise as necessary!
 
 <a href="mailto:sebin.xavi1@gmail.com"><img src="https://img.shields.io/badge/-sebin.xavi1@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
