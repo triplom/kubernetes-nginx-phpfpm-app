@@ -1,35 +1,68 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: phpfpm  # deployment name
+  name: phpfpm  # Deployment name
   labels:
-    app: phpfpm  # application label
-    layer: backend  # backend layer label
+    app: phpfpm  # Application label
+    layer: backend  # Backend layer label
+    environment: dev  # Environment label
 spec:
-  replicas: 3  # number of replicas
+  replicas: 3  # Number of replicas
   selector:
     matchLabels:
-      app: phpfpm  # selector label
+      app: phpfpm  # Selector label
   template:
     metadata:
       labels:
-        app: phpfpm  # template label
+        app: phpfpm  # Template label
+        layer: backend
+        environment: dev
     spec:
       containers:
-      - name: phpfpm  # container name
-        image: php:fpm-alpine  # PHP FPM Alpine image
+      - name: phpfpm  # Container name
+        image: php:fpm-alpine  # PHP-FPM Alpine image
         ports:
-        - containerPort: 9000  # expose port 9000
+        - containerPort: 9000  # Expose port 9000
         resources:
+          requests:
+            cpu: "0.5"  # Request 0.5 CPU
+            memory: "256Mi"  # Request 256Mi of memory
           limits:
-            cpu: "1"  # limit CPU to 1 core
-            memory: "512Mi"  # limit memory to 512MB
+            cpu: "1"  # Limit CPU to 1 core
+            memory: "512Mi"  # Limit memory to 512Mi
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+          successThreshold: 1
         volumeMounts:
-        - mountPath: /var/www/html/  # mount path for volume
-          name: contents  # volume name
+        - mountPath: /var/www/html/  # Mount path for volume
+          name: contents  # Volume name
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 3000
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL
       volumes:
-      - name: contents  # volume name
+      - name: contents  # Volume name
         hostPath:
-          path: /var/website/  # host path for volume
-          type: Directory  # volume type
+          path: /var/website/  # Host path for volume
+          type: DirectoryOrCreate  # Volume type
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        fsGroup: 2000

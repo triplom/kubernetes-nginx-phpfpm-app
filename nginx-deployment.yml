@@ -1,14 +1,12 @@
----
 apiVersion: apps/v1
 kind: Deployment
-# Define a Deployment named "nginx"
 metadata:
   name: nginx
   labels:
     app: nginx
     layer: frontend
+    environment: dev
 spec:
-  # Set the number of replicas to 2
   replicas: 3
   selector:
     matchLabels:
@@ -17,19 +15,27 @@ spec:
     metadata:
       labels:
         app: nginx
+        layer: frontend
+        environment: dev
     spec:
-      # Define a container named "nginx"
+      initContainers:
+      - name: init-create-dir
+        image: alpine:latest
+        command: ['sh', '-c', 'mkdir -p /var/website']
+        volumeMounts:
+        - mountPath: /var/website
+          name: contents
       containers:
       - name: nginx
-        # Use the nginx:alpine image
         image: nginx:alpine
         ports:
         - containerPort: 80
         resources:
+          requests:
+            cpu: "0.25"
+            memory: "256Mi"
           limits:
-            # Set CPU limit to 0.5
             cpu: "0.5"
-            # Set memory limit to 512Mi
             memory: "512Mi"
         livenessProbe:
           httpGet:
@@ -39,22 +45,37 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+          successThreshold: 1
         volumeMounts:
         - mountPath: /var/www/html/
-          # Mount the "contents" volume
           name: contents
         - name: nginx-config
-          # Mount the "nginx-config" volume
           mountPath: /etc/nginx/conf.d/default.conf
           subPath: nginx.conf
-      # Define two volumes
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 3000
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL
       volumes:
       - name: contents
-        # Use a hostPath volume
         hostPath:
           path: /var/website
-          type: Directory
+          type: DirectoryOrCreate
       - name: nginx-config
-        # Use a ConfigMap volume
         configMap:
           name: nginx
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        fsGroup: 2000

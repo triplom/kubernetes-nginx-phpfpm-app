@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpfpm  # Service name
+  labels:
+    app: phpfpm  # Application label
+    layer: backend  # Backend layer label
+spec:
+  type: ClusterIP  # Service type (ClusterIP for internal service)
+  selector:
+    app: phpfpm  # Selects Pods with this label
+  ports:
+    - port: 9000  # Port exposed by the service
+      targetPort: 9000  # Port on the Pods
