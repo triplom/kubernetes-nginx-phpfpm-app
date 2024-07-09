@@ -7,7 +7,7 @@ metadata:
     app: phpfpm  # application label
     layer: backend  # backend layer label
 spec:
-  replicas: 2  # number of replicas
+  replicas: 3  # number of replicas
   selector:
     matchLabels:
       app: phpfpm  # selector label
@@ -26,10 +26,10 @@ spec:
             cpu: "1"  # limit CPU to 1 core
             memory: "512Mi"  # limit memory to 512MB
         volumeMounts:
-        - mountPath: /app/  # mount path for volume
+        - mountPath: /var/www/html/  # mount path for volume
           name: contents  # volume name
       volumes:
       - name: contents  # volume name
         hostPath:
-          path: /var/website  # host path for volume
+          path: /var/website/  # host path for volume
           type: Directory  # volume type
