@@ -37,9 +37,6 @@ We will get below results once we run the above deployments.
 
 ![Alt Text](https://i.ibb.co/L6Gtcy6/pic4.png)
 
-#### Author
 
-Created by [@sebinxavi](https://www.linkedin.com/in/sebinxavi/) - feel free to contact me and advise as necessary!
-
-<a href="mailto:sebin.xavi1@gmail.com"><img src="https://img.shields.io/badge/-sebin.xavi1@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
-<a href="https://www.linkedin.com/in/sebinxavi"><img src="https://img.shields.io/badge/-Linkedin-blue"/></a>
+<a href="mailto:triplom@gmail.com"><img src="https://img.shields.io/badge/-triplom@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
+<a href="https://www.linkedin.com/in/triplom"><img src="https://img.shields.io/badge/-Linkedin-blue"/></a>

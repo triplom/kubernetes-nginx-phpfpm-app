@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: phpfpm  # Container name
-        image: php:fpm-alpine  # PHP-FPM Alpine image
+        image: php:8.2-fpm  # PHP-FPM Alpine image
         ports:
         - containerPort: 9000  # Expose port 9000
         resources:
