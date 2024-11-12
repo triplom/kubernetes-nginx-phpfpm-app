@@ -38,7 +38,7 @@ RUN sed -i "s/;date.timezone =.*/date.timezone = \$TZ/" /usr/local/etc/php/php.i
 RUN sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /usr/local/etc/php/php.ini
 
 # Expose port if needed (not required for PHP CLI or FPM)
-# EXPOSE 9000
+EXPOSE 9000
 
 # Start PHP-FPM (if needed) and keep the container running
 # CMD ["php-fpm"]

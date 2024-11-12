@@ -15,7 +15,7 @@ Nginx is a web server and reverse proxy that’s widely used for high traffic ap
 
 We should upload the application files first, to all worker nodes to the directory /var/website as /var/website is volume path to containers.
 
-### Manifests and config Files: 
+### Manifests and config Files
 
 - Nginx
   - [nginx-deployment.yaml](https://github.com/triplom/kubernetes-nginx-phpfpm-app/blob/master/nginx-deployment.yml)
@@ -25,7 +25,7 @@ We should upload the application files first, to all worker nodes to the directo
   - [phpfpm-deployment.yaml](https://github.com/triplom/kubernetes-nginx-phpfpm-app/blob/master/phpfpm-deployment.yml)
   - [phpfpm-service.yaml](https://github.com/triplom/kubernetes-nginx-phpfpm-app/blob/master/phpfpm-service.yml)
 
-### Results: 
+### Results
 
 We will get below results once we run the above deployments.
 
@@ -37,6 +37,5 @@ We will get below results once we run the above deployments.
 
 ![Alt Text](https://i.ibb.co/L6Gtcy6/pic4.png)
 
-
-<a href="mailto:triplom@gmail.com"><img src="https://img.shields.io/badge/-triplom@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
-<a href="https://www.linkedin.com/in/triplom"><img src="https://img.shields.io/badge/-Linkedin-blue"/></a>
+[![Email](https://img.shields.io/badge/-triplom@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white)](mailto:triplom@gmail.com)
+[![Linkedin](https://img.shields.io/badge/-Linkedin-blue)](https://www.linkedin.com/in/triplom)
