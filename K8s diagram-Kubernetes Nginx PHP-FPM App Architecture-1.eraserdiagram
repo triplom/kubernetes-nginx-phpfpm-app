@@ -1,0 +1,39 @@
+cloud-architecture-diagram
+
+title Kubernetes Nginx PHP-FPM App Architecture
+
+Client [icon: user]
+
+DevOps [color: purple, icon: git] {
+  Git Repository [icon: git]
+  "CI/CD Pipeline" [icon: cog]
+}
+
+Kubernetes Cluster [icon: k8s-cluster] {
+  Frontend [color: blue, icon: monitor] {
+    Nginx Deployment [icon: nginx, label: "Nginx Deploy"]
+    Nginx Service [icon: aws-elb, label: "Nginx Service"]
+    Nginx ConfigMap [icon: file-text, label: "Nginx Config"]
+  }
+
+  Backend [color: green, icon: server] {
+    PHP-FPM Deployment [icon: php, label: "PHP-FPM Deploy"]
+    PHP-FPM Service [icon: server, label: "PHP-FPM Service"]
+  }
+
+  Storage [color: gray, icon: hard-drive] {
+    Persistent Volume [icon: hard-drive, label: "PV"]
+  }
+}
+
+// Connections
+Client > Nginx Service: HTTP requests
+
+Git Repository > "CI/CD Pipeline": trigger build
+"CI/CD Pipeline" > Kubernetes Cluster: deploy updates
+
+Nginx Deployment > PHP-FPM Service: proxy PHP requests
+
+Nginx Deployment <> Persistent Volume: mounts website files
+PHP-FPM Deployment <> Persistent Volume: mounts website files
+
