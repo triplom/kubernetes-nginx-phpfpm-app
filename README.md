@@ -5,6 +5,10 @@ In this tutorial, we will deploy a PHP application on a Kubernetes cluster with 
 We want the web-server nginx and phpfpm to be co-located in separate pods.
 ![alt text](https://i.ibb.co/R4P9YB0/kubernetes-nginx-phpfpm1-drawio.png)
 
+## Architecture
+![Eraser Diagram](.eraser/mFSw11dJhyjXiR1oQ61R___1GnFFCkZzsfjm5qyZrykm6k4jJx2___---diagram----d5a76badc4473cf73722f898d2806acb-Kubernetes-Nginx-PHP-FPM-App-Architecture.png)
+
+
 ## PHP-FPM
 
 PHP-FPM is an implementation of Fast-CGI for PHP with improved capabilities around process management, logging, and high traffic situations.
